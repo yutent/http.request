@@ -9,9 +9,8 @@
 const Parser = require('./lib'),
     FS = require('iofs'),
     URL = require('url'),
-    PATH = require('path'),
     QS = require('querystring'),
-    tmpdir = PATH.normalize(__dirname + '/../.tmp/');
+    tmpdir = __dirname + '/.tmp/';
 
 
 class Request {

@@ -1,6 +1,6 @@
 {
   "name": "http.request",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Simple api for http request.",
   "main": "index.js",
   "author": "yutent",
@@ -9,6 +9,9 @@
     "request",
     "http"
   ],
+  "dependencies": {
+    "iofs": "^1.0.0"
+  },
   "repository": "https://github.com/yutent/http.request.git",
   "license": "MIT"
 }
