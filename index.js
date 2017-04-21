@@ -174,8 +174,11 @@ class Request {
                     name = name.slice(0, -2)
                 }
                 if(!para.hasOwnProperty(name)){
-                    para[name] = [file]
+                    para[name] = file
                 }else{
+                    if(!Array.isArray(para[name])){
+                        para[name] = [para[name]]
+                    }
                     para[name].push(file)
                 }
             })
