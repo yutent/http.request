@@ -170,7 +170,14 @@ class Request {
             })
 
             form.on('file', (name, file) => {
-                para[name] = file
+                if(name.slice(-2) === '[]'){
+                    name = name.slice(0, -2)
+                }
+                if(!para.hasOwnProperty(name)){
+                    para[name] = [file]
+                }else{
+                    para[name].push(file)
+                }
             })
 
             form.on('error', no)
