@@ -20,6 +20,7 @@ class Request {
         this.res = res
         this._getParam = null
         this._postParam = null
+        this.method = req.method
         this._fixUrl()
 
         //把判断放到
@@ -84,10 +85,14 @@ class Request {
                 for(let i in para){
                     para[i] = para[i].trim().xss();
 
+                    if(!para[i]){
+                        continue
+                    }
+
                     if(para[i].startsWith(0) && !para[i].startsWith('0.'))
                         continue
                     else if(isFinite(para[i]))
-                        para[i] -= 0
+                        para[i] = +para[i]
                 }
             }
             this._getParam = para
@@ -188,10 +193,13 @@ class Request {
             form.on('end', err => {
                 for(let i in para){
                     if(typeof para[i] === 'string'){
+                        if(!para[i]){
+                            continue
+                        }
                         if(para[i].startsWith(0) && !para[i].startsWith('0.'))
                             continue
                         else if(isFinite(para[i]))
-                            para[i] -= 0
+                            para[i] = +para[i]
                     }
                 }
                 this._postParam = para
