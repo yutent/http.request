@@ -20,7 +20,8 @@ class Request {
         this.res = res
         this._getParam = null
         this._postParam = null
-        this.method = req.method
+        this.method = req.method.toUpperCase()
+        this.router = {}
         this._fixUrl()
 
         //把判断放到
@@ -38,22 +39,26 @@ class Request {
 
     //修正请求的url
     _fixUrl(){
-        let _url = URL.parse(this.req.url).pathname.slice(1).replace(/[\/]+$/, '')
-        let _route = ''
+        let _url = URL.parse(this.req.url).pathname.slice(1).replace(/[\/]+$/, ''),
+            _route = '',
+            pathFixed = '',
+            pathArr = [],
+            _routeArr = [];
+
 
         if(/[^\w\-\/\.]/.test(_url)){
-            this.res.writeHead(401, {'X-debug': 'url[' + _url + '] contains illegal characters'})
+            this.res.writeHead(400, {'X-debug': 'url[' + _url + '] contains illegal characters'})
             return this.res.end('')
         }
         
         //修正url中可能出现的"多斜杠",并跳转到修正后的地址
-        let pathFixed = _url.replace(/[\/]+/g, '/').replace(/^\//, '');
+        pathFixed = _url.replace(/[\/]+/g, '/').replace(/^\//, '');
         if(pathFixed !== _url){
             this.res.writeHead(301, {'Location': `//${this.req.headers.host}/${pathFixed}`})
             return this.res.end()
         }
 
-        let pathArr = _url.split('/')
+        pathArr = _url.split('/')
         if(!pathArr[0] || pathArr[0] === '')
             pathArr[0] = 'index'
 
@@ -67,6 +72,23 @@ class Request {
         }
 
         pathArr.shift()
+
+        _routeArr = Array.from(pathArr.slice(1))
+        while(_routeArr.length){
+            this.router[_routeArr.shift()] = _routeArr.shift() || null
+        }
+        _routeArr = undefined
+
+        for(let i in this.router){
+            if(!this.router[i]){
+                continue
+            }
+
+            if(this.router[i].startsWith(0) && !this.router[i].startsWith('0.'))
+                continue
+            else if(isFinite(this.router[i]))
+                this.router[i] = +this.router[i]
+        }
 
         this.url = _url
         this.path = pathArr
