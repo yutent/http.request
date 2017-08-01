@@ -41,22 +41,18 @@ class Request {
     _fixUrl(){
         let _url = URL.parse(this.req.url).pathname.slice(1).replace(/[\/]+$/, ''),
             _route = '',
-            pathFixed = '',
             pathArr = [],
             _routeArr = [];
 
 
         if(/[^\w\-\/\.]/.test(_url)){
+            this.res.rendered = true
             this.res.writeHead(400, {'X-debug': 'url[' + _url + '] contains illegal characters'})
             return this.res.end('')
         }
         
         //修正url中可能出现的"多斜杠",并跳转到修正后的地址
-        pathFixed = _url.replace(/[\/]+/g, '/').replace(/^\//, '');
-        if(pathFixed !== _url){
-            this.res.writeHead(301, {'Location': `//${this.req.headers.host}/${pathFixed}`})
-            return this.res.end()
-        }
+        _url = _url.replace(/[\/]+/g, '/').replace(/^\//, '');
 
         pathArr = _url.split('/')
         if(!pathArr[0] || pathArr[0] === '')
