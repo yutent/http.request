@@ -1,11 +1,11 @@
 {
   "name": "http.request",
-  "version": "0.1.7",
+  "version": "1.0.0",
   "description": "Simple api for http request.",
   "main": "index.js",
   "author": "yutent",
   "keywords": [
-    "dojs",
+    "fivejs",
     "request",
     "http"
   ],
