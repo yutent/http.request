@@ -6,20 +6,12 @@
  */
 
 'use strict'
+require('es.shim')
 const Parser = require('./lib')
 const FS = require('iofs')
 const URL = require('url')
 const QS = require('querystring')
 const tmpdir = __dirname + '/.tmp/'
-
-function defer() {
-  let obj = {}
-  obj.promise = new Promise((resolve, reject) => {
-    obj.resolve = resolve
-    obj.reject = reject
-  })
-  return obj
-}
 
 function hideProperty(host, name, value) {
   Object.defineProperty(host, name, {
@@ -165,7 +157,7 @@ class Request {
    */
   post(key = '', xss = true) {
     let para = {}
-    let out = defer()
+    let out = Promise.defer()
     xss = !!xss
 
     //如果之前已经缓存过,则直接从缓存读取
