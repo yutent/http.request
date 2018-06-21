@@ -39,8 +39,8 @@ class Request {
       // 清除2个小时前的所有临时文件
       let list = FS.ls(tmpdir)
       list.forEach(it => {
-        if (FS.stat(tmpdir + it).atime < Date.now() - 2 * 3600 * 1000) {
-          FS.rm(tmpdir + it)
+        if (FS.stat(it).atime < Date.now() - 2 * 3600 * 1000) {
+          FS.rm(it)
         }
       })
     }
@@ -147,7 +147,9 @@ class Request {
     }
 
     return key
-      ? this.__GET__.hasOwnProperty(key) ? this.__GET__[key] : null
+      ? this.__GET__.hasOwnProperty(key)
+        ? this.__GET__[key]
+        : null
       : this.__GET__
   }
 
@@ -267,8 +269,8 @@ class Request {
   }
 
   //获取响应头
-  header(key) {
-    key = (key + '').toLowerCase()
+  header(key = '') {
+    key = key ? (key + '').toLowerCase() : null
     return !!key ? this.origin.req.headers[key] : this.origin.req.headers
   }
 

@@ -1,17 +1,19 @@
 {
   "name": "http.request",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Simple api for http request.",
   "main": "index.js",
   "author": "yutent",
   "keywords": [
+    "five",
+    "five.js",
     "fivejs",
     "request",
     "http"
   ],
   "dependencies": {
     "es.shim": "^1.0.1",
-    "iofs": "^1.0.1"
+    "iofs": "^1.1.0"
   },
   "repository": "https://github.com/yutent/http.request.git",
   "license": "MIT"
