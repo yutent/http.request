@@ -25,7 +25,7 @@ function hideProperty(host, name, value) {
 class Request {
   constructor(req, res) {
     this.method = req.method.toUpperCase()
-    this.router = {}
+    this.params = {}
 
     hideProperty(this, 'origin', { req, res })
     hideProperty(this, '__GET__', null)
@@ -84,22 +84,22 @@ class Request {
 
     pathArr.shift()
 
-    // 将path第3段之后的部分, 每2个一组转为key-val数据对象, 存入router中
+    // 将path第3段之后的部分, 每2个一组转为key-val数据对象, 存入params中
     tmpArr = pathArr.slice(1).concat()
     while (tmpArr.length) {
-      this.router[tmpArr.shift()] = tmpArr.shift() || null
+      this.params[tmpArr.shift()] = tmpArr.shift() || null
     }
     tmpArr = undefined
 
-    for (let i in this.router) {
-      if (!this.router[i]) {
+    for (let i in this.params) {
+      if (!this.params[i]) {
         continue
       }
       // 修正数字类型,把符合条件的数字字符串转为数字(也许会误转, 但总的来说是利大弊)
-      if (this.router[i].startsWith(0) && !this.router[i].startsWith('0.')) {
+      if (this.params[i].startsWith(0) && !this.params[i].startsWith('0.')) {
         continue
-      } else if (isFinite(this.router[i])) {
-        this.router[i] = +this.router[i]
+      } else if (isFinite(this.params[i])) {
+        this.params[i] = +this.params[i]
       }
     }
 
