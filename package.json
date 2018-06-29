@@ -1,6 +1,6 @@
 {
   "name": "http.request",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Simple api for http request.",
   "main": "index.js",
   "author": "yutent",
@@ -12,7 +12,7 @@
     "http"
   ],
   "dependencies": {
-    "es.shim": "^1.0.1",
+    "es.shim": "^1.1.1",
     "iofs": "^1.1.0"
   },
   "repository": "https://github.com/yutent/http.request.git",

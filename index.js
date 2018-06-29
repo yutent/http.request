@@ -96,11 +96,7 @@ class Request {
         continue
       }
       // 修正数字类型,把符合条件的数字字符串转为数字(也许会误转, 但总的来说是利大弊)
-      if (this.params[i].startsWith(0) && !this.params[i].startsWith('0.')) {
-        continue
-      } else if (isFinite(this.params[i])) {
-        this.params[i] = +this.params[i]
-      }
+      this.params[i] = Number.parse(this.params[i])
     }
 
     this.app = app
@@ -124,22 +120,11 @@ class Request {
 
           if (Array.isArray(para[i])) {
             para[i] = para[i].map(it => {
-              it = it.trim().xss()
-              if (it.startsWith(0) && !it.startsWith('0.')) {
-                return it
-              } else if (isFinite(it)) {
-                it = +it
-              }
+              it = Number.parse(it.trim().xss())
               return it
             })
           } else {
-            para[i] = para[i].trim().xss()
-
-            if (para[i].startsWith(0) && !para[i].startsWith('0.')) {
-              continue
-            } else if (isFinite(para[i])) {
-              para[i] = +para[i]
-            }
+            para[i] = Number.parse(para[i].trim().xss())
           }
         }
       }
@@ -251,11 +236,7 @@ class Request {
           if (!para[i]) {
             continue
           }
-          if (para[i].startsWith(0) && !para[i].startsWith('0.')) {
-            continue
-          } else if (isFinite(para[i])) {
-            para[i] = +para[i]
-          }
+          para[i] = Number.parse(para[i])
         }
       }
       this._postParam = para
