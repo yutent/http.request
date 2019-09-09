@@ -1,16 +1,10 @@
 {
   "name": "http.request",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "Simple api for http request.",
   "main": "index.js",
   "author": "yutent",
-  "keywords": [
-    "five",
-    "five.js",
-    "fivejs",
-    "request",
-    "http"
-  ],
+  "keywords": ["five", "node-five", "five.js", "fivejs", "request", "http"],
   "dependencies": {
     "es.shim": "^1.1.1",
     "iofs": "^1.1.0"

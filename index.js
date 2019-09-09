@@ -161,7 +161,11 @@ class Request {
     form.parse(this.origin.req)
 
     form.on('field', (name, value) => {
-      if (/urlencoded/i.test(this.header('content-type'))) {
+      if (name === false) {
+        para = value
+        return
+      }
+      if (~this.header('content-type').indexOf('urlencoded')) {
         if (
           name.slice(0, 2) === '{"' &&
           (name.slice(-2) === '"}' || value.slice(-2) === '"}')
@@ -231,12 +235,14 @@ class Request {
     form.on('error', out.reject)
 
     form.on('end', err => {
-      for (let i in para) {
-        if (typeof para[i] === 'string') {
-          if (!para[i]) {
-            continue
+      if (~this.header('content-type').indexOf('urlencoded')) {
+        for (let i in para) {
+          if (typeof para[i] === 'string') {
+            if (!para[i]) {
+              continue
+            }
+            para[i] = Number.parse(para[i])
           }
-          para[i] = Number.parse(para[i])
         }
       }
       this._postParam = para
